@@ -1,0 +1,18 @@
+Start logstash + elasticsearch + kibana:
+
+    make setup
+    cd docker-elk; docker-compose up
+
+Get dstat-agent:
+
+    go get github.com/jorgemarsal/dstat-agent
+    $GOPATH/bin/dstat-agent &
+
+Start feeding dstat data to elk:
+
+    curl -s localhost:8888|python3 dstat.py |jq '.' -c -M|nc localhost 5000
+
+Start the example app:
+
+    go run main.go &
+    curl -s localhost:8080
